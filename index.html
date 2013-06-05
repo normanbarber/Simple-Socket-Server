@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width" />
+    <script src="socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            var socket = io.connect('/');
+
+            // 1 savename click
+            // 1a save the username data and emit the set_name event
+            $('#savename').click(function(){
+                var namedata = {
+                    message: $('#savename').val(),
+                };
+                var nameentered = $('input[id=nickname]').val();
+                if(nameentered) socket.emit('set_name', {name:nameentered});
+            });
+
+            // 3 listen for the 'name_set' event from server
+            // 3a append the users name to the #username div
+            socket.on('name_set', function(data){
+                $('#nickname').val('');
+                $('#username').val(data.name);
+            });
+
+            // 6 listen for a message from server
+            // 6a parse the data
+            // 6b if its a new user introduce them to the chat
+            // 6c else if username and message exist append their message to div.allusermessages
+            socket.on('message', function(data){
+                data = JSON.parse(data);
+                console.log(data);
+                if(data.type == 'newUser'){
+                    $('.allusermessages').append(data.name + ' has just joined the chat ' + '<br/>');
+                }
+                else{
+                    if(data.username && data.message){
+                        $('.allusermessages').append(data.username + ' says: ' + data.message + '<br/>');
+//                      $('.allusermessages span').last().focus();
+                    }
+                }
+            });
+
+            // 4 click send message btn
+            // 4a save the message value to data obj
+            // 4b send message to server with the data
+            $('#send').click(function(event){
+                event.preventDefault();
+                var data = {
+                    message: $('#usercomments').val()
+                };
+                socket.send(JSON.stringify(data));
+                $('#usercomments').val('');
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div id="nameform" class="modal">
+    <div class="backdrop">
+        <div class="popup">
+            <div class="pophead">Please enter your name</div>
+            <div class="popbody">
+                <input id="nickname" type="text" />
+                <input id="savename" type="button" value="Save Name" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="serverform" style="float:left; width: 100%; height: 100%; margin: 0 auto; padding: 0px;">
+    <h1>Simple Web Server</h1>
+    <div style="float:none; width: 90%; height: 200px; margin: 0 auto; padding: 20px; background: #dfdfdf; color:#161616; overflow: auto;" class="allusermessages"></div>
+    <form method="post">
+        <div style="margin: 0 20px;">
+            <div align="left">
+                <input style="float:left; width: 100%; height: auto;" id="username" type="text" name="username" placeholder="username" readonly />
+            </div>
+            <p>&nbsp;</p>
+            <div align="left">
+                <textarea style="float:left; width: 100%; height: 50%;" id="usercomments" data-type="text" name="usercomments" placeholder="Enter a comment"></textarea>
+            </div>
+            <div align="left">
+                <input style="float:left; width: 100%; margin: 10px auto; padding: 10px;" type="submit" value="submit" id="send" />
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
