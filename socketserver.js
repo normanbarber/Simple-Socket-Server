@@ -1,6 +1,6 @@
 var io = require('socket.io').listen(3001);
-
 io.sockets.on('connection', function (socket) {
+
     socket.on('set_name', function(data){
         socket.set('nickname', data.name, function(){
             socket.emit('name_set', data);

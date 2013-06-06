@@ -10,24 +10,17 @@
     <script type="text/javascript">
         $( document ).ready(function() {
             var socket = io.connect('http://localhost:3001');
-            // 1 savename click
-            // 1a save the username data and emit the set_name event
+
             $('#savename').click(function(){
-                var nameentered = $('input[id=nickname]').val();
+                var nameentered = $('input[id=entername]').val();
                 if(nameentered) socket.emit('set_name', {name:nameentered});
             });
 
-            // 3 listen for the 'name_set' event from server
-            // 3a append the users name to the #username div
             socket.on('name_set', function(data){
-                $('#nickname').val('');
+                $('#entername').val('');
                 $('#username').val(data.name);
             });
 
-            // 6 listen for a message from server
-            // 6a parse the data
-            // 6b if its a new user introduce them to the chat
-            // 6c else if username and message exist append their message to div.allusermessages
             socket.on('message', function(data){
                 data = JSON.parse(data);
                 console.log(data);
@@ -37,13 +30,11 @@
                 else{
                     if(data.username && data.message){
                         $('.allusermessages').append(data.username + ' says: ' + data.message + '<br/>');
+                        $('.allusermessages').scrollTop(1e4);
                     }
                 }
             });
 
-            // 4 click send message btn
-            // 4a save the message value to data obj
-            // 4b send message to server with the data
             $('#send').click(function(event){
                 event.preventDefault();
                 var data = {
@@ -62,7 +53,7 @@
         <div class="popup">
             <div class="pophead">Please enter your name</div>
             <div class="popbody">
-                <input id="nickname" type="text" />
+                <input id="entername" type="text" />
                 <input id="savename" type="button" value="Save Name" />
             </div>
         </div>
