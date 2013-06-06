@@ -1,17 +1,15 @@
 var app = require('http').createServer(handler)
-    , SocketServer = require('socketserver')
+    , io = require('socket.io')
     , fs = require('fs')
+    , path = require('path')
     , port = Number(process.argv[2])
     , file = process.argv[3];
 
-var server = app.listen(port, function(){
-    console.log('express server listening on port ' + port);
-});
-var socketServer = new SocketServer({
-    'force new connection': true
-});
-socketServer.start(server, 3002);
+app.listen(port);
+
 function handler (req, res) {
+    var filePath = req.url;
+    console.log('filePath = ' + filePath);
     fs.readFile(file,
         function (err, data) {
             if (err) {
@@ -21,4 +19,6 @@ function handler (req, res) {
             res.writeHead(200);
             res.end(data);
         });
+
+
 }

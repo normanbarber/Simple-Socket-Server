@@ -5,12 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     <meta name="viewport" content="width=device-width" />
-    <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="http://localhost:3001/socket.io/socket.io.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
-            var socket = io.connect('/');
-
+            var socket = io.connect('http://localhost:3001');
             // 1 savename click
             // 1a save the username data and emit the set_name event
             $('#savename').click(function(){
@@ -38,7 +37,6 @@
                 else{
                     if(data.username && data.message){
                         $('.allusermessages').append(data.username + ' says: ' + data.message + '<br/>');
-//                        $('.allusermessages').last().focus();
                     }
                 }
             });
