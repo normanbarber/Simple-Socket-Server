@@ -9,15 +9,12 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
         $( document ).ready(function() {
+            var nameentered = window.prompt("Enter a username");
             var socket = io.connect('http://localhost:3001');
-            $('#nameform').show();
-            $('#savename').click(function(){
-                var nameentered = $('#entername').val();
-                if(nameentered){
-                    $('#nameform').fadeOut();
-                    socket.emit('set_name', {name:nameentered});
-                }
-            });
+
+            if(nameentered) {
+                socket.emit('set_name', {name:nameentered});
+            }
 
             $('#send').click(function(event){
                 event.preventDefault();
@@ -50,27 +47,22 @@
     </script>
 </head>
 <body>
-    <div id="nameform" style="float: left; width: 100%; height: 100%; padding: 20px 0px 0px 0px; background: #000000; opacity: 0.9; color: #ffffff; text-align: center; position: fixed; top: 0px; left: 0px; z-index: 1;">
-        Please enter your name
-        <input id="entername" type="text" />
-        <input id="savename" type="button" value="Save Name" />
-    </div>
-    <div id="serverform" style="float:left; width: 100%; height: 100%; margin: 0 auto; padding: 0px; position: fixed; top: 0px; left: 0px; z-index: 0;">
-        <h1>Simple Chat</h1>
-        <div style="float:none; width: 100%; height: 200px; margin: 0 auto; padding: 20px; background: #dfdfdf; color:#161616; overflow: auto;" class="allusermessages"></div>
-        <form method="post">
-            <div style="margin: 0 20px;">
-                <div align="left">
-                    <label style="float:left; width: 100%; height: auto; padding: 10px 0px;" id="username"></label>
-                </div>
-                <div align="left" style="float:left; width: 80%;">
-                    <textarea style="float:left; width: 100%; height: 100px;" id="usercomments" data-type="text" name="usercomments" placeholder="enter a message"></textarea>
-                </div>
-                <div align="right" style="float:right; width: 18%; ">
-                    <input style="float:left; width: 100%; margin: 0px auto; padding: 10px;" type="submit" value="submit" id="send" />
-                </div>
+<div id="serverform" style="float:left; width: 100%; height: 100%; margin: 0 auto; padding: 0px; position: fixed; top: 0px; left: 0px; z-index: 0;">
+    <h1>Simple Chat</h1>
+    <div style="float:none; width: 100%; height: 200px; margin: 0 auto; padding: 20px; background: #dfdfdf; color:#161616; overflow: auto;" class="allusermessages"></div>
+    <form method="post">
+        <div style="margin: 0 20px;">
+            <div align="left">
+                <label style="float:left; width: 100%; height: auto; padding: 10px 0px;" id="username"></label>
             </div>
-        </form>
-    </div>
+            <div align="left" style="float:left; width: 80%;">
+                <textarea style="float:left; width: 100%; height: 100px;" id="usercomments" data-type="text" name="usercomments" placeholder="enter a message"></textarea>
+            </div>
+            <div align="right">
+                <input style="float:left; margin: 0 0 0 20px; padding: 10px;" type="submit" value="submit" id="send" />
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>
