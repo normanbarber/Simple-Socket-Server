@@ -14,7 +14,7 @@
             $('#savename').click(function(){
                 var nameentered = $('#entername').val();
                 if(nameentered){
-                    $('#nameform').hide();
+                    $('#nameform').fadeOut();
                     socket.emit('set_name', {name:nameentered});
                 }
             });
@@ -62,11 +62,10 @@
         <form method="post">
             <div style="margin: 0 20px;">
                 <div align="left">
-                    <label style="float:left; width: 100%; height: auto;" id="username"></label>
+                    <label style="float:left; width: 100%; height: auto; padding: 10px 0px;" id="username"></label>
                 </div>
-                <p>&nbsp;</p>
                 <div align="left" style="float:left; width: 80%;">
-                    <textarea style="float:left; width: 100%; height: 100px;" id="usercomments" data-type="text" name="usercomments" placeholder="Enter a comment"></textarea>
+                    <textarea style="float:left; width: 100%; height: 100px;" id="usercomments" data-type="text" name="usercomments" placeholder="enter a message"></textarea>
                 </div>
                 <div align="right" style="float:right; width: 18%; ">
                     <input style="float:left; width: 100%; margin: 0px auto; padding: 10px;" type="submit" value="submit" id="send" />
