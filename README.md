@@ -1,4 +1,4 @@
-Simple-Web-Server
+Simple-Socket-Server
 =================
 
 A demonstration of the simplicity of node.js.
