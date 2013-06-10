@@ -4,6 +4,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('set_name', function(data){
         socket.set('username', data.name, function(){
             socket.emit('name_set', data);
+            socket.broadcast.send(JSON.stringify({type: 'newUser', name:data.name}));
         });
     });
 
