@@ -35,7 +35,6 @@
 
             socket.on('message', function(data){
                 data = JSON.parse(data);
-                console.log(data);
                 if(data.type == 'newUser'){
                     $('.allusermessages').append(data.name + ' has just joined the chat ' + '<br/>');
                 }
