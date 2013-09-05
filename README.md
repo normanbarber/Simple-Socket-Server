@@ -11,3 +11,4 @@ Usage: socketserver.js
 ``` javascript
 node socketserver.js
 ```
+Open index.html in two separate browser windows
